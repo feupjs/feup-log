@@ -1,0 +1,20 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["dom", "ES5", "es2015", "es2015.promise"],
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "outDir": "dist",
+    "target": "ES5",
+    "allowJs": true, // 允许编译javascript文件
+    "sourceMap": true,
+    "suppressImplicitAnyIndexErrors": true
+  },
+  "paths": {
+    "@/*": ["src/*"]
+  },
+  "exclude": ["node_modules"],
+  "typeRoots": ["node_modules/@types"]
+}

@@ -1,0 +1,67 @@
+{
+  "name": "@kkb/fig-log",
+  "version": "0.0.11",
+  "description": "fig-log",
+  "main": "./dist/log.js",
+  "scripts": {
+    "start": "npm run dev",
+    "build": "rimraf dist && npm run build:prod",
+    "old_build": "rimraf dist && npm run build:prod && npm run build:win",
+    "build:watch": "cross-env BUILD_ENV=prod DEBUG=true webpack --config=config/webpack.common.js --watch",
+    "build:prod": "cross-env BUILD_ENV=prod webpack --config=config/webpack.common.js",
+    "build:win": "cross-env BUILD_ENV=win webpack --config=config/webpack.common.js",
+    "dev": "cross-env BUILD_ENV=dev webpack-dev-server --config=config/webpack.common.js",
+    "prepublishOnly": "npm run build:prod",
+    "test": "cross-env BUILD_ENV=test webpack --config=config/webpack.common.js"
+  },
+  "maintainers": [
+    "zhanzhiqiang",
+    "wuhaoran"
+  ],
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "report",
+    "light"
+  ],
+  "author": "starkwang",
+  "license": "ISC",
+  "lint-staged": {
+    "*.{js}": [
+      "pretty-quick --staged",
+      "eslint src/ --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-typescript": "^7.10.4",
+    "autoprefixer": "^9.7.3",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "compression-webpack-plugin": "^4.0.0",
+    "cross-env": "^6.0.3",
+    "eslint": "^7.3.1",
+    "eslint-plugin-import": "^2.22.0",
+    "exports-loader": "^0.7.0",
+    "html-webpack-plugin": "^3.2.0",
+    "regenerator-runtime": "^0.13.3",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.9.5",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.11.0",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@types/json2md": "^1.5.1",
+    "axios": "^0.19.2",
+    "dayjs": "^1.10.6",
+    "json2md": "^1.11.0",
+    "terser-webpack-plugin": "^3.0.6",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {}
+}
