@@ -1,26 +1,73 @@
-import { InitParams, Context, BaseParams } from '../interface/NvwaParams';
+import { InitParams, Context, BaseParams, ActionParamsApi, ActionParamsBuildTime } from '../interface/NvwaParams';
 import actions from './actions';
 import send from '../utils/send';
 import { nvwaOrigin } from '../config/constants';
 import { getDeviceID } from '../utils/crypto';
-import { kkbCookie } from '../utils/cookie';
+import { feupCookie } from '../utils/cookie';
 import { filterParams } from '../utils/filter';
-import { useNoticeMsg, useFigui } from '../utils/params';
+import { useNoticeMsg, useFigui, useUserId, useUA, useSourceUrl, useFilterMsg, useApiInfo, useBuildTime } from '../utils/params';
+import XMLHttpRequestProxy from '../middleware/xhr';
 
 // 默认参数
 const context: Context = { options: null };
 
-export const init = ({ app_id, env, debug }: InitParams) => {
+export const init = ({ app_id, env, debug, xhrProxy = true, xhrProxyNotice = true }: InitParams) => {
+  if (xhrProxy) XMLHttpRequestProxy({ xhrProxy }, (apiInfo) => report({
+    type: 'apiError',
+    level: xhrProxyNotice ? 'error' : 'info',
+    // @ts-ignore
+    notice: false,
+    title: 'xhr代理自动上报',
+    content: '接口异常',
+    apiInfo
+  }));
   if (!context.initOptions) {
-    context.initOptions = { app_id, env, debug };
+    context.initOptions = { app_id, env, debug, xhrProxy, xhrProxyNotice };
   }
 };
 
-type logType = 'apiError' | 'noMatch' | 'buildTime' | 'other';
+type logType = 'apiError' | 'apiInfo' | 'noMatch' | 'buildTime' | 'other' | 'report';
+
+export const apiError = (props: ActionParamsApi) => {
+  useApiInfo(props);
+
+  // @ts-ignore
+  report({
+    type: "apiError",
+    ...props
+  })
+}
+
+export const apiInfo = (props: ActionParamsApi) => {
+  useApiInfo(props);
+
+  // @ts-ignore
+  report({
+    type: "apiInfo",
+    ...props
+  })
+}
+
+export const noMatch = (props: BaseParams) => {
+  // @ts-ignore
+  report({
+    type: "noMatch",
+    ...props
+  })
+}
+
+export const buildTime = (props: ActionParamsBuildTime) => {
+  useBuildTime(props);
+
+  // @ts-ignore
+  report({
+    type: "buildTime",
+    ...props
+  })
+}
 
 export const report = ({
-  type,
-  level,
+  type = "report",
   ...props
 }: {
   type: logType;
@@ -31,22 +78,26 @@ export const report = ({
     const { env, debug } = context.initOptions;
     // 域名env相关
     const serverEnv = debug ? env : 'prod';
+
     // env前缀相关。
-    const envPrefix = env === 'prod' ? '' : `${env}_`;
-    let figui = kkbCookie.get(`${envPrefix}figui`);
-    let figId = kkbCookie.get(`${envPrefix}figId`);
-    if (!figId) {
-      figId = getDeviceID();
-      kkbCookie.set(`${envPrefix}figId`, figId, new Date(9999, 11, 31));
-    }
-    const fn = actions[type];
-    const params = fn(
-      { level, nvwaOrigin: nvwaOrigin[serverEnv], figId, ...props },
-      context
-    );
-    useFigui(params, figui);
-    useNoticeMsg(params);
-    send(filterParams(params), serverEnv)
+    let figui = feupCookie.getFigui(env);
+    let figId = feupCookie.getFigId(env, getDeviceID);
+
+    let params = { nvwaOrigin: nvwaOrigin[serverEnv], figId, ...props };
+    
+    useUA(params);
+    useSourceUrl(params);
+    useFilterMsg(params);
+
+    const action = actions[type];
+    // @ts-ignore
+    const reportParams = action(params, context);
+    
+    useFigui(reportParams, figui);
+    useUserId(reportParams, figui);
+    useNoticeMsg(reportParams);
+    
+    send(filterParams(reportParams), serverEnv)
       .then((res) => {
         resolve(res);
       })

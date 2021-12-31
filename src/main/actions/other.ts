@@ -1,4 +1,5 @@
 import * as dayjs from 'dayjs';
+import UAParser from '../../utils/ua.js'
 import { ReportParams, Context, SendParams } from '../../interface/NvwaParams';
 
 const other = (options: ReportParams, context: Context): SendParams => {
@@ -16,7 +17,7 @@ const other = (options: ReportParams, context: Context): SendParams => {
     { name: '用户设备ID', value: figId },
     {
       name: '设备环境',
-      value: UA,
+      value: UAParser(UA),
     },
     {
       name: '页面地址',

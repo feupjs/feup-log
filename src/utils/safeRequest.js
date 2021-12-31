@@ -4,18 +4,19 @@ import axios from 'axios';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // 中间件 拦截请求-
-// axios.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   (err) => {}
-// );
+axios.interceptors.response.use(
+  config => {
+    if(config.headers['x-requested-log']){
+      return 
+    }
+  },
+  (err) => {}
+);
 
 const safeRequest = (options) => {
-  // console.log('请求所有参数', options);
   return axios({
     ...options,
-    // headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    headers: { 'x-requested-log': 'XMLHttpRequest-Log' },
   });
 };
 

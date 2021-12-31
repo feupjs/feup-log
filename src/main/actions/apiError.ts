@@ -1,4 +1,5 @@
 import * as dayjs from 'dayjs';
+import UAParser from '../../utils/ua.js'
 import {
   ApiErrorParams,
   Context,
@@ -28,9 +29,11 @@ const apiError = (options: ApiErrorParams, context: Context): SendParams => {
     request_params,
     response_content,
   } = (response ? handleAxios(response) : apiInfo) || {};
-  const UA = user_agent || navigator.userAgent || '';
-  const sourceUrl = source_url || window.location.href;
-  const verfiyMsg = (msg || []).filter((item) => item.name && item.value);
+
+  const UA = user_agent;
+  const sourceUrl = source_url;
+  const verfiyMsg = msg;
+  
   const list = [
     { name: '时间', value: dayjs().format('YYYY-MM-DD HH:mm:ss') },
     { name: '应用名称', value: '{{APP_NAME}}' },
@@ -46,7 +49,7 @@ const apiError = (options: ApiErrorParams, context: Context): SendParams => {
     { name: '接口返回', value: response_content },
     {
       name: '设备环境',
-      value: UA,
+      value: UAParser(UA),
     },
     {
       name: '来源地址',

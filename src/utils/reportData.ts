@@ -1,6 +1,5 @@
-import { AMAPI, kmsapi, KMOSAPI } from '../config/constants';
+import { NVWA_API } from '../config/constants';
 // import { aesEncode } from './index';
-import { mode } from './env';
 
 const handlePostData = (url: string, params: object) => {
   return {
@@ -12,21 +11,8 @@ const handlePostData = (url: string, params: object) => {
   };
 };
 
-/**
- * kmsapi环境数据
- */
-const kmsapiData = (url: string, params: object) => {
-  return handlePostData(`${kmsapi[mode]}${url}`, params);
-};
 
-/**
- * apitool环境数据
- */
-const amapiData = (url: string, params: object) => {
-  return handlePostData(`${AMAPI[mode]}${url}`, params);
-};
-
-const kmosapiData = ({
+const apiData = ({
   url,
   params,
   env,
@@ -35,7 +21,7 @@ const kmosapiData = ({
   params: object;
   env: string;
 }) => {
-  return handlePostData(`${KMOSAPI[env] || KMOSAPI['dev']}${url}`, params);
+  return handlePostData(`${NVWA_API[env] || NVWA_API['dev']}${url}`, params);
 };
 
-export { kmsapiData, amapiData, kmosapiData };
+export {  apiData };

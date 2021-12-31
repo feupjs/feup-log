@@ -6,11 +6,12 @@ import {
 } from '../../interface/NvwaParams';
 
 const buildTime = (options: BuildTimeParams, context: Context): SendParams => {
-  const { title, content, level, notice, uid, other, nvwaOrigin, figId } =
-    options;
+  const { title, content, level, notice, uid, other, nvwaOrigin, figId } = options;
   const { app_id, env } = context.initOptions;
-  const { app_name, time, version, status, msg, mode } = other || {};
-  const verfiyMsg = (msg || []).filter((item) => item.name && item.value);
+  const { app_name, time, status, mode, version, msg } = other || {};
+
+  const verfiyMsg = msg;
+
   const list = [
     { name: '时间', value: dayjs().format('YYYY-MM-DD HH:mm:ss') },
     { name: '应用名称', value: app_name },

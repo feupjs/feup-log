@@ -7,6 +7,8 @@ const $ = (selector, node) => {
 };
 
 const create = (type, className, innerHTML) => {
+  if (typeof document === "undefined") return;
+
   const ele = document.createElement(type);
   if (className) {
     ele.className = className;
@@ -18,11 +20,15 @@ const create = (type, className, innerHTML) => {
 };
 
 const createFrag = (type) => {
+  if (typeof document === "undefined") return;
+
   return document.createDocumentFragment(type);
 };
 
 // 动态加载js并支持回调-
 function loadJs(src, callback) {
+  if (typeof document === "undefined") return;
+
   let sc = document.createElement('script');
   sc.type = 'text/javascript';
   sc.src = src;
@@ -43,12 +49,15 @@ function loadJs(src, callback) {
 
 const cookie = {
   get(keys) {
+    if (typeof document === "undefined") return '';
+
     const mat = new RegExp('(^|[^a-z])' + keys + '=(.*?)(;|$)', 'i').exec(
       document.cookie
     );
     return mat ? decodeURIComponent(mat[2]) : '';
   },
   set(name, value, expires, path, domain, secure) {
+    if (typeof document === "undefined") return '';
     let cookieText = encodeURIComponent(name) + '=' + encodeURIComponent(value);
     if (expires instanceof Date) {
       cookieText += '; expires=' + expires.toGMTString();
@@ -81,6 +90,20 @@ function aesEncode(cleardata) {
   return encoded;
 }
 
+/**
+ * 解密 figui
+ * @param {String} figui userId 密文
+ */
+const decryption = (figui) => {
+  // 将字符串中所有的A替换成0
+  let str = figui.replaceAll('A', 0); // '0wSjG569syGq2602'
+  // 匹配str中所有的数字，并反转
+  const uidArr = [...str.match(/\d/g)].reverse(); // ['2', '0', '6', '2', '9', '6', '5', '0']
+  // 得到uid并返回
+  const uid = uidArr.join(''); // '20629650'
+  return uid;
+}
+
 export {
   $,
   create,
@@ -89,4 +112,5 @@ export {
   loadJs,
   // isMobile,
   aesEncode,
+  decryption
 };

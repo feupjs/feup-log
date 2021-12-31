@@ -1,6 +1,6 @@
 {
-  "name": "@kkb/fig-log",
-  "version": "0.0.11",
+  "name": "feup-log",
+  "version": "0.0.2",
   "description": "fig-log",
   "main": "./dist/log.js",
   "scripts": {

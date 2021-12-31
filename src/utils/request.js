@@ -73,6 +73,37 @@ function getQueryString(obj, prefix) {
     .filter(Boolean)
     .join('&');
 }
+
+/**
+ * 将请求路径中的参数转为对象
+ * @param {String} str 请求路径
+ */
+function queryToObj(str = "") {
+  if (!str) return {}
+
+  var obj = {};
+  var params = str.split("?");
+  if (params.length === 1) return {};
+
+  var paramsItem = params[1].split("&");
+
+  while(paramsItem.length) {
+    const [ key, value ] = paramsItem.shift().split("=");
+    
+    // 处理数组情况
+    if (obj[key] && !Array.isArray(obj[key])) {
+      obj[key] = [obj[key], value]
+      continue;
+    }
+    if (Array.isArray(obj[key])) {
+      obj[key].push(value);
+      continue
+    }
+    
+    obj[key] = value;
+  }
+  return obj;
+}
 function hasContentType(headers) {
   return Object.keys(headers).some(function (name) {
     return name.toLowerCase() === 'content-type';
@@ -106,4 +137,4 @@ const post = function (options) {
     ...options,
   });
 };
-export { ajax, get, post };
+export { ajax, get, post, getQueryString, queryToObj };

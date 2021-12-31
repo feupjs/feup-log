@@ -8,29 +8,29 @@ export interface ApiType {
 }
 
 const AMAPI: ApiType = {
-  dev: 'https://xxx.xxx.com/v1',
-  test: 'https://xxx.xxx.com/v1',
-  prod: 'https://xxx.xxx.com/v1',
+  dev: '',
+  test: '',
+  prod: '',
 };
 
 const kmsapi: ApiType = {
-  dev: 'https://xxx.xxx.com/v1',
-  test: 'https://xxx.xxx.com/v1',
-  prod: 'https://xxx.xxx.com/v1',
+  dev: 'xxx',
+  test: 'xxx',
+  prod: 'xx',
 };
 
-const KMOSAPI: ApiType = {
-  dev: 'https://xxx-dev.xxx.com',
-  test: 'https://xxx-test.xxx.com',
-  pre: 'https://xxx-pre.xxx.com',
-  prod: 'https://xxx.xxx.com',
+const NVWA_API: ApiType = {
+  dev: 'http://nvwa-api.feup.cn',
+  test: 'http://nvwa-api.feup.cn',
+  pre: 'http://nvwa-api.feup.cn',
+  prod: 'http://nvwa-api.feup.cn',
 };
 
 const nvwaOrigin: ApiType = {
-  dev: 'https://devxxx.xxx.com',
-  test: 'https://testxxx.xxx.com',
-  pre: 'https://prexxx.xxx.com',
-  prod: 'https://xxx.xxx.com',
+  dev: 'http://nvwa-api.feup.cn',
+  test: 'http://nvwa-api.feup.cn',
+  pre: 'http://nvwa-api.feup.cn',
+  prod: 'http://nvwa-api.feup.cn',
 };
 
-export { NAME_SPACE, AMAPI, kmsapi, KMOSAPI, nvwaOrigin };
+export { NAME_SPACE, AMAPI, kmsapi, NVWA_API, nvwaOrigin };
