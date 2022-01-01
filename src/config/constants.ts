@@ -20,17 +20,17 @@ const kmsapi: ApiType = {
 };
 
 const NVWA_API: ApiType = {
-  dev: 'http://nvwa-api.feup.cn',
-  test: 'http://nvwa-api.feup.cn',
-  pre: 'http://nvwa-api.feup.cn',
-  prod: 'http://nvwa-api.feup.cn',
+  dev: 'https://nvwa-api.feup.cn',
+  test: 'https://nvwa-api.feup.cn',
+  pre: 'https://nvwa-api.feup.cn',
+  prod: 'https://nvwa-api.feup.cn',
 };
 
 const nvwaOrigin: ApiType = {
-  dev: 'http://nvwa-api.feup.cn',
-  test: 'http://nvwa-api.feup.cn',
-  pre: 'http://nvwa-api.feup.cn',
-  prod: 'http://nvwa-api.feup.cn',
+  dev: 'https://nvwa-api.feup.cn',
+  test: 'https://nvwa-api.feup.cn',
+  pre: 'https://nvwa-api.feup.cn',
+  prod: 'https://nvwa-api.feup.cn',
 };
 
 export { NAME_SPACE, AMAPI, kmsapi, NVWA_API, nvwaOrigin };

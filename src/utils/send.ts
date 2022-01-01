@@ -4,7 +4,7 @@ import { apiData } from '../utils/reportData';
 const send = (params: object, env: string) => {
   return new Promise((resolve, reject) => {
     // http://yapi.kaikeba.com/project/2708/interface/api/38992
-    post(apiData({ url: '/api/log', params, env }))
+    post(apiData({ url: '/api/logs', params, env }))
       .then((res: unknown) => {
         resolve(res);
       })
